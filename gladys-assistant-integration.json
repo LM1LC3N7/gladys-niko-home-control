@@ -1,177 +1,171 @@
 {
   "manifest_version": 1,
   "type": "device",
-  "name": "Demo Devices Template",
+  "name": "Niko Home Control II",
   "description": {
-    "en": "Starter template showing sensors, a switch, a dimmable light and a smart plug.",
-    "fr": "Template de démarrage : capteurs, interrupteur, lampe variable et prise connectée."
+    "en": "Niko Home Control II through its local Hobby API: lights, dimmers, shutters, thermostats, energy.",
+    "fr": "Niko Home Control II par sa Hobby API locale : éclairage, variateurs, volets, thermostats, énergie."
   },
-  "version": "1.0.0",
-  "docker_image": "ghcr.io/gladysassistant/integration-template-js:1.0.0",
+  "version": "0.1.0",
+  "docker_image": "ghcr.io/lm1lc3n7/gladys-niko-home-control:0.1.0",
   "gladys_version": ">=5.1.0",
-  "cover_image": "https://raw.githubusercontent.com/GladysAssistant/integration-template-js/master/cover.png",
-  "categories": ["lighting", "security", "environment"],
-  "transports": ["local", "cloud"],
+  "cover_image": "https://raw.githubusercontent.com/LM1LC3N7/gladys-niko-home-control/main/cover.png",
+  "categories": ["lighting", "climate", "energy"],
+  "transports": ["local"],
+  "network_discovery": [{ "type": "udp-active-broadcast", "ports": [10000] }],
   "config_schema": [
     {
       "key": "intro",
       "type": "section",
-      "label": { "en": "Getting started", "fr": "Pour commencer" },
+      "label": {
+        "en": "Your Niko Home Control II installation in Gladys",
+        "fr": "Votre installation Niko Home Control II dans Gladys"
+      },
       "description": {
-        "en": "The demo weather station reads real data from the free Open-Meteo API: pick the coordinates to observe. No account, no API key.",
-        "fr": "La station météo de démonstration lit de vraies données via l'API gratuite Open-Meteo : choisissez les coordonnées à observer. Pas de compte, pas de clé d'API."
+        "en": "Gladys talks to the Connected Controller (or the Wireless Smart Hub) on your local network, through the Hobby API that Niko offers for private use: no cloud, every change arrives at once. You need its IP address and a Hobby API token: with software 2.17 or later, create it in the Niko Home Control programming software (Dashboard, Manage connected services, Hobby API), before on mynikohomecontrol (Connected services). The token is valid one year: Gladys warns you 14 days before it expires. You get the lights, dimmers, sockets, shutters and sun blinds, gates, garage doors, free functions, moods and all-off, virtual flags, thermostats, meters and smart plugs. Unofficial, not affiliated with Niko.",
+        "fr": "Gladys dialogue avec le Connected Controller (ou le Wireless Smart Hub) sur votre réseau local, par la Hobby API que Niko propose pour un usage privé : pas de cloud, chaque changement arrive aussitôt. Il faut son adresse IP et un jeton Hobby API : à partir de la version 2.17, créez-le dans le logiciel de programmation Niko Home Control (tableau de bord, Gérer les services connectés, Hobby API), avant sur mynikohomecontrol (Services connectés). Le jeton est valable un an : Gladys vous prévient 14 jours avant son expiration. Vous obtenez les éclairages, variateurs, prises, volets et stores, portails, portes de garage, fonctions libres, ambiances et tout éteint, drapeaux virtuels, thermostats, compteurs et prises connectées. Non officiel, sans lien avec Niko."
       },
       "links": [
         {
-          "url": "https://open-meteo.com/en/docs",
-          "label": { "en": "Open-Meteo documentation", "fr": "Documentation Open-Meteo" }
+          "url": "https://github.com/LM1LC3N7/gladys-niko-home-control/blob/main/docs/fr.md",
+          "label": { "en": "Guide (French)", "fr": "Guide (français)" }
+        },
+        {
+          "url": "https://github.com/LM1LC3N7/gladys-niko-home-control/blob/main/docs/en.md",
+          "label": { "en": "Guide (English)", "fr": "Guide (anglais)" }
+        },
+        {
+          "url": "https://guide.niko.eu/en/smnhc2/lv/hobby-api",
+          "label": { "en": "Niko: the Hobby API", "fr": "Niko : la Hobby API" }
         }
       ]
     },
     {
-      "key": "latitude",
-      "type": "number",
-      "label": { "en": "Latitude", "fr": "Latitude" },
-      "description": {
-        "en": "Latitude used for the demo weather sensor.",
-        "fr": "Latitude utilisée par le capteur météo de démonstration."
+      "key": "controller_host",
+      "type": "string",
+      "label": {
+        "en": "IP address of the Connected Controller",
+        "fr": "Adresse IP du Connected Controller"
       },
-      "placeholder": { "en": "e.g. 48.8566", "fr": "ex. 48.8566" },
-      "required": true,
-      "default": 48.8566,
-      "min": -90,
-      "max": 90
+      "description": {
+        "en": "Its IP address on your network (or its name, Niko1234.local). Give it a fixed address in your router. Empty: the \"Find the controller\" button looks for it.",
+        "fr": "Son adresse IP sur votre réseau (ou son nom, Niko1234.local). Donnez-lui une adresse fixe dans votre box. Vide : le bouton « Trouver le contrôleur » le cherche."
+      },
+      "placeholder": { "en": "192.168.1.50", "fr": "192.168.1.50" },
+      "required": false
     },
     {
-      "key": "longitude",
-      "type": "number",
-      "label": { "en": "Longitude", "fr": "Longitude" },
+      "key": "hobby_token",
+      "type": "secret",
+      "label": { "en": "Hobby API token", "fr": "Jeton Hobby API" },
       "description": {
-        "en": "Longitude used for the demo weather sensor.",
-        "fr": "Longitude utilisée par le capteur météo de démonstration."
+        "en": "The long text Niko gives when you add the Hobby API (three parts separated by dots). Paste the new one here every year.",
+        "fr": "Le long texte que Niko donne quand vous ajoutez la Hobby API (trois parties séparées par des points). Collez ici le nouveau chaque année."
       },
-      "placeholder": { "en": "e.g. 2.3522", "fr": "ex. 2.3522" },
-      "required": true,
-      "default": 2.3522,
-      "min": -180,
-      "max": 180
+      "required": false
     },
     {
-      "key": "unit",
+      "key": "general",
+      "type": "section",
+      "label": { "en": "In Gladys", "fr": "Dans Gladys" },
+      "description": {
+        "en": "How the values reach Gladys and how Gladys controls the thermostats.",
+        "fr": "Comment les valeurs arrivent dans Gladys et comment Gladys pilote les thermostats."
+      }
+    },
+    {
+      "key": "sensor_interval",
+      "type": "number",
+      "label": {
+        "en": "Minimum interval between two readings of a measurement (s)",
+        "fr": "Intervalle minimum entre deux mesures d'une grandeur (s)"
+      },
+      "description": {
+        "en": "Powers and temperatures can change every few seconds: Gladys keeps the last reading at this pace. Lights, shutters, setpoints and switches are never delayed.",
+        "fr": "Puissances et températures peuvent changer toutes les quelques secondes : Gladys garde la dernière mesure à ce rythme. Éclairages, volets, consignes et interrupteurs ne sont jamais retardés."
+      },
+      "required": false,
+      "default": 10,
+      "min": 0,
+      "max": 600
+    },
+    {
+      "key": "overrule_minutes",
+      "type": "number",
+      "label": {
+        "en": "Duration of a setpoint set from Gladys (minutes)",
+        "fr": "Durée d'une consigne réglée depuis Gladys (minutes)"
+      },
+      "description": {
+        "en": "A setpoint changed in Gladys is a temporary one on a Niko thermostat; after this time the thermostat follows its program again (at most 1439, almost a day).",
+        "fr": "Une consigne changée dans Gladys est une consigne temporaire sur un thermostat Niko ; après cette durée le thermostat reprend son programme (au plus 1439, presque un jour)."
+      },
+      "required": false,
+      "default": 60,
+      "min": 1,
+      "max": 1439
+    },
+    {
+      "key": "language",
       "type": "select",
-      "label": { "en": "Temperature unit", "fr": "Unité de température" },
-      "required": false,
-      "default": "celsius",
-      "options": [
-        { "value": "celsius", "label": { "en": "Celsius", "fr": "Celsius" } },
-        { "value": "fahrenheit", "label": { "en": "Fahrenheit", "fr": "Fahrenheit" } }
-      ]
-    },
-    {
-      "key": "poll_frequency",
-      "type": "number",
-      "label": { "en": "Refresh interval (s)", "fr": "Intervalle de rafraîchissement (s)" },
+      "label": {
+        "en": "Language of the feature names",
+        "fr": "Langue des noms des fonctionnalités"
+      },
       "description": {
-        "en": "How often sensors are polled, in seconds (one minute minimum).",
-        "fr": "Fréquence d'interrogation des capteurs, en secondes (une minute minimum)."
+        "en": "Names given to the features in Discovery (Brightness, Setpoint…). The devices keep the names of your installation.",
+        "fr": "Noms donnés aux fonctionnalités dans Découverte (Luminosité, Consigne…). Les appareils gardent les noms de votre installation."
       },
       "required": false,
-      "default": 300,
-      "min": 60,
-      "max": 3600
+      "default": "fr",
+      "options": [
+        { "value": "fr", "label": { "en": "French", "fr": "Français" } },
+        { "value": "en", "label": { "en": "English", "fr": "Anglais" } },
+        { "value": "nl", "label": { "en": "Dutch", "fr": "Néerlandais" } }
+      ]
     }
   ],
   "actions": [
     {
-      "key": "test_weather",
-      "label": { "en": "Test the weather provider", "fr": "Tester le fournisseur météo" },
-      "timeout_seconds": 30
+      "key": "test_connection",
+      "label": { "en": "Test the connection", "fr": "Tester la connexion" },
+      "timeout_seconds": 60
     },
     {
-      "key": "identify",
-      "label": { "en": "Identify a device", "fr": "Identifier un appareil" },
-      "fields": [
-        {
-          "key": "device",
-          "type": "select",
-          "source": "devices",
-          "label": { "en": "Device", "fr": "Appareil" },
-          "required": true
-        }
-      ]
+      "key": "find_controller",
+      "label": { "en": "Find the controller", "fr": "Trouver le contrôleur" },
+      "timeout_seconds": 30
     }
   ],
   "scene_triggers": [
     {
-      "key": "motion_detected",
-      "label": { "en": "Motion detected", "fr": "Mouvement détecté" },
-      "description": {
-        "en": "A demo motion sensor saw a person or an animal move.",
-        "fr": "Un détecteur de démonstration a vu bouger une personne ou un animal."
+      "key": "token_expiring",
+      "label": {
+        "en": "Hobby API token about to expire",
+        "fr": "Jeton Hobby API bientôt expiré"
       },
-      "fields": [
-        {
-          "key": "device",
-          "type": "select",
-          "source": "devices",
-          "label": { "en": "Sensor", "fr": "Détecteur" }
-        },
-        {
-          "key": "target",
-          "type": "multi_select",
-          "label": { "en": "What moved", "fr": "Ce qui a bougé" },
-          "options": [
-            { "value": "person", "label": { "en": "Person", "fr": "Personne" } },
-            { "value": "animal", "label": { "en": "Animal", "fr": "Animal" } }
-          ]
-        }
-      ],
+      "description": {
+        "en": "Once a day from 14 days before the expiry of the token, and once a day after it expired: a reminder to create a new one.",
+        "fr": "Une fois par jour à partir de 14 jours avant l'expiration du jeton, et une fois par jour après son expiration : un rappel pour en créer un nouveau."
+      },
+      "fields": [],
       "variables": [
         {
-          "key": "target",
+          "key": "days_left",
+          "type": "number",
+          "label": { "en": "Days left", "fr": "Jours restants" }
+        },
+        {
+          "key": "expires_on",
           "type": "string",
-          "label": { "en": "What moved", "fr": "Ce qui a bougé" }
-        }
-      ]
-    }
-  ],
-  "scene_actions": [
-    {
-      "key": "identify_device",
-      "label": { "en": "Identify a device", "fr": "Identifier un appareil" },
-      "description": {
-        "en": "Make a device signal itself (the demo light blinks).",
-        "fr": "Fait se signaler un appareil (la lampe de démonstration clignote)."
-      },
-      "timeout_seconds": 15,
-      "fields": [
+          "label": { "en": "Expiry date", "fr": "Date d'expiration" }
+        },
         {
-          "key": "device",
-          "type": "select",
-          "source": "devices",
-          "label": { "en": "Device", "fr": "Appareil" },
-          "required": true
-        }
-      ],
-      "outputs": [
-        {
-          "key": "signalled",
+          "key": "expired",
           "type": "boolean",
-          "label": { "en": "Device signalled", "fr": "Appareil signalé" }
+          "label": { "en": "Already expired", "fr": "Déjà expiré" }
         }
       ]
-    }
-  ],
-  "widgets": [
-    {
-      "key": "demo_status",
-      "label": { "en": "Demo status", "fr": "État de la démo" },
-      "description": {
-        "en": "Live temperature and plug power, plug connection and observed location.",
-        "fr": "Température et puissance en direct, connexion de la prise, position observée."
-      },
-      "icon": "activity",
-      "action_timeout_seconds": 15
     }
   ]
 }
