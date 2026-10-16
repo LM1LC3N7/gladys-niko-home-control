@@ -10,6 +10,8 @@ the notes of the version's GitHub Release.
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-10-16
+
 ### Added
 
 - Niko Home Control II through the local Hobby API of the Connected Controller
@@ -37,4 +39,5 @@ the notes of the version's GitHub Release.
 - Feature names in French, English or Dutch; user documentation in English,
   French and Dutch.
 
-[Unreleased]: https://github.com/LM1LC3N7/gladys-niko-home-control/commits/main
+[Unreleased]: https://github.com/LM1LC3N7/gladys-niko-home-control/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/LM1LC3N7/gladys-niko-home-control/releases/tag/v0.1.1

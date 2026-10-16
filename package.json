@@ -1,6 +1,6 @@
 {
   "name": "gladys-niko-home-control",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Gladys Assistant external integration for Niko Home Control II through the local Hobby API of the Connected Controller. Unofficial, not affiliated with Niko.",
   "type": "module",
